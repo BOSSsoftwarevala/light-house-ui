@@ -162,7 +162,7 @@ function SoftwareValaLogin() {
 
               {/* Inner bright core of the cone */}
               <div
-                className={`sv-flame absolute top-20 sm:top-28 left-1/2 -translate-x-1/2 w-[90px] h-[150px] sm:w-[130px] sm:h-[210px] transition-all duration-700 pointer-events-none ${
+                className={`${lampOn ? "sv-flame " : ""}absolute top-20 sm:top-28 left-1/2 -translate-x-1/2 w-[90px] h-[150px] sm:w-[130px] sm:h-[210px] transition-all duration-700 pointer-events-none ${
                   lampOn ? "opacity-100" : "opacity-0"
                 }`}
                 style={{
@@ -182,7 +182,7 @@ function SoftwareValaLogin() {
               >
                 {/* Bulb hot core */}
                 <div
-                  className={`sv-flame absolute inset-[22%] rounded-full transition-opacity duration-500 ${
+                  className={`${lampOn ? "sv-flame " : ""}absolute inset-[22%] rounded-full transition-opacity duration-500 ${
                     lampOn ? "opacity-100" : "opacity-0"
                   }`}
                   style={{
@@ -248,7 +248,7 @@ function SoftwareValaLogin() {
                 />
                 {/* Hot filament center seen through the opening */}
                 <div
-                  className={`sv-flame absolute -bottom-0.5 sm:-bottom-1 left-1/2 -translate-x-1/2 w-[34%] h-2 sm:h-2.5 rounded-[50%] transition-opacity duration-500 ${
+                  className={`${lampOn ? "sv-flame " : ""}absolute -bottom-0.5 sm:-bottom-1 left-1/2 -translate-x-1/2 w-[34%] h-2 sm:h-2.5 rounded-[50%] transition-opacity duration-500 ${
                     lampOn ? "opacity-100" : "opacity-0"
                   }`}
                   style={{
