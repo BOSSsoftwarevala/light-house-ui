@@ -172,7 +172,33 @@ function SoftwareValaLogin() {
                 }}
               />
 
-              {/* Lampshade */}
+              {/* Bulb — recessed INSIDE the shade, only its glowing rim peeks out */}
+              <div
+                className={`absolute top-[98px] sm:top-[134px] left-1/2 -translate-x-1/2 w-8 sm:w-11 h-8 sm:h-11 rounded-full transition-all duration-500 ${
+                  lampOn
+                    ? "bg-[#fff0bd] shadow-[0_0_35px_15px_rgba(255,205,110,.55)]"
+                    : "bg-[#303743]"
+                }`}
+              >
+                {/* Bulb hot core */}
+                <div
+                  className={`sv-flame absolute inset-[22%] rounded-full transition-opacity duration-500 ${
+                    lampOn ? "opacity-100" : "opacity-0"
+                  }`}
+                  style={{
+                    background:
+                      "radial-gradient(circle, #ffffff, rgba(255,244,200,.9) 60%, transparent)",
+                  }}
+                />
+                {/* Glass specular highlight */}
+                <div
+                  className={`absolute top-[16%] left-[24%] w-[24%] h-[16%] rounded-full bg-white blur-[1px] transition-opacity duration-500 ${
+                    lampOn ? "opacity-80" : "opacity-15"
+                  }`}
+                />
+              </div>
+
+              {/* Lampshade — painted OVER the bulb so it reads as sitting inside, like a real lamp */}
               <div
                 className={`absolute top-10 sm:top-14 left-1/2 -translate-x-1/2 w-36 sm:w-52 h-20 sm:h-28 transition-all duration-500 ${
                   lampOn ? "drop-shadow-[0_0_35px_rgba(255,196,90,.5)]" : ""
@@ -184,6 +210,17 @@ function SoftwareValaLogin() {
                   }`}
                   style={{
                     clipPath: "polygon(20% 0, 80% 0, 100% 100%, 0 100%)",
+                  }}
+                />
+                {/* Inner shade walls lit by the bulb inside */}
+                <div
+                  className={`absolute inset-0 transition-opacity duration-500 ${
+                    lampOn ? "opacity-100" : "opacity-0"
+                  }`}
+                  style={{
+                    clipPath: "polygon(20% 0, 80% 0, 100% 100%, 0 100%)",
+                    background:
+                      "linear-gradient(to top, rgba(255,226,165,.6) 0%, rgba(255,205,110,.22) 40%, transparent 68%)",
                   }}
                 />
                 {/* Shade sheen */}
@@ -198,35 +235,26 @@ function SoftwareValaLogin() {
                   }}
                 />
                 <div className="absolute bottom-0 left-0 right-0 h-2 sm:h-3 bg-black/30" />
-                {/* Under-shade warm rim light */}
+                {/* Glowing shade mouth — the lit opening under the shade */}
                 <div
-                  className={`absolute -bottom-1 left-2 right-2 h-1 rounded-full transition-opacity duration-500 ${
+                  className={`absolute -bottom-1.5 sm:-bottom-2 left-1/2 -translate-x-1/2 w-[72%] h-3.5 sm:h-5 rounded-[50%] transition-opacity duration-500 ${
                     lampOn ? "opacity-100" : "opacity-0"
                   }`}
                   style={{
                     background:
-                      "linear-gradient(90deg, transparent, rgba(255,230,170,.85), transparent)",
-                    filter: "blur(2px)",
+                      "radial-gradient(ellipse at center, #fff6d8 0%, rgba(255,216,135,.9) 45%, rgba(255,180,60,.3) 75%, transparent 100%)",
+                    filter: "blur(1.5px)",
                   }}
                 />
-              </div>
-
-              {/* Bulb */}
-              <div
-                className={`absolute top-[92px] sm:top-[125px] left-1/2 -translate-x-1/2 w-8 sm:w-11 h-8 sm:h-11 rounded-full transition-all duration-500 ${
-                  lampOn
-                    ? "bg-[#fff0bd] shadow-[0_0_35px_15px_rgba(255,205,110,.55)]"
-                    : "bg-[#303743]"
-                }`}
-              >
-                {/* Bulb hot core */}
+                {/* Hot filament center seen through the opening */}
                 <div
-                  className={`sv-flame absolute inset-[22%] rounded-full transition-opacity duration-500 ${
+                  className={`sv-flame absolute -bottom-0.5 sm:-bottom-1 left-1/2 -translate-x-1/2 w-[34%] h-2 sm:h-2.5 rounded-[50%] transition-opacity duration-500 ${
                     lampOn ? "opacity-100" : "opacity-0"
                   }`}
                   style={{
                     background:
-                      "radial-gradient(circle, #ffffff, rgba(255,244,200,.9) 60%, transparent)",
+                      "radial-gradient(ellipse at center, #ffffff, rgba(255,240,190,.9) 60%, transparent)",
+                    filter: "blur(1px)",
                   }}
                 />
               </div>
