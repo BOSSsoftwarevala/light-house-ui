@@ -1,6 +1,21 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Eye, EyeOff, LockKeyhole, Mail, Power } from "lucide-react";
+import {
+  Bot,
+  Eye,
+  EyeOff,
+  Facebook,
+  Globe,
+  Instagram,
+  Languages,
+  LockKeyhole,
+  Mail,
+  MessageCircle,
+  Power,
+  X,
+  Youtube,
+} from "lucide-react";
+import logoAsset from "../assets/software-vala-logo.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -48,9 +63,42 @@ const DUST = [
   { left: "58%", bottom: "24%", size: 3, dur: "8.6s", delay: "2.4s" },
 ];
 
+const LANGUAGES = ["English", "हिन्दी", "বাংলা", "मराठी", "தமிழ்", "తెలుగు"];
+
+const WHATSAPP_URL = "https://wa.me/918348838383";
+
+const SOCIAL_LINKS = [
+  { label: "WhatsApp", href: WHATSAPP_URL, Icon: MessageCircle },
+  { label: "Facebook", href: "https://facebook.com/share/1HpGSvExis", Icon: Facebook },
+  { label: "Instagram", href: "https://instagram.com/new_software_vala", Icon: Instagram },
+  { label: "YouTube", href: "https://youtube.com/@softwarevala", Icon: Youtube },
+  { label: "Email", href: "mailto:hellosoftwarevala@gmail.com", Icon: Mail },
+];
+
+const WEBSITE_LINKS = [
+  { label: "Online Software", href: "https://softwarevala.net" },
+  { label: "Offline Software", href: "https://erpvala.com" },
+];
+
 function SoftwareValaLogin() {
   const [lampOn, setLampOn] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [language, setLanguage] = useState("English");
+  const [langOpen, setLangOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [aiPanelOpen, setAiPanelOpen] = useState(false);
+  const langRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!langOpen) return;
+    const onPointerDown = (event: MouseEvent) => {
+      if (langRef.current && !langRef.current.contains(event.target as Node)) {
+        setLangOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onPointerDown);
+    return () => document.removeEventListener("mousedown", onPointerDown);
+  }, [langOpen]);
 
   return (
     <main
@@ -60,6 +108,41 @@ function SoftwareValaLogin() {
     >
       {/* Cinematic film grain */}
       <div className="sv-grain z-30" />
+
+      {/* Language selector */}
+      <div ref={langRef} className="fixed top-4 right-4 sm:top-6 sm:right-6 z-40">
+        <button
+          type="button"
+          onClick={() => setLangOpen((value) => !value)}
+          className="flex items-center gap-2 h-10 px-3 sm:px-4 rounded-full border border-white/10 bg-[#0b1424]/80 backdrop-blur-xl text-white/70 hover:text-white hover:border-white/25 transition-all text-xs sm:text-sm shadow-xl"
+          aria-label="Select language"
+          aria-expanded={langOpen}
+        >
+          <Languages size={15} />
+          <span>{language}</span>
+        </button>
+        {langOpen && (
+          <div className="absolute right-0 mt-2 w-40 rounded-2xl border border-white/10 bg-[#0b1424]/95 backdrop-blur-xl shadow-2xl overflow-hidden py-1.5">
+            {LANGUAGES.map((lang) => (
+              <button
+                key={lang}
+                type="button"
+                onClick={() => {
+                  setLanguage(lang);
+                  setLangOpen(false);
+                }}
+                className={`w-full text-left px-4 py-2 text-xs sm:text-sm transition-colors ${
+                  language === lang
+                    ? "text-white bg-white/[0.07]"
+                    : "text-white/60 hover:text-white hover:bg-white/[0.05]"
+                }`}
+              >
+                {lang}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Vignette */}
       <div
@@ -322,18 +405,19 @@ function SoftwareValaLogin() {
           >
             <div className="mb-6 sm:mb-8">
               <div className="flex items-center gap-3 mb-5 sm:mb-7">
-                <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#e31b23] flex items-center justify-center shadow-lg overflow-hidden">
-                  <div className="sv-shine" />
-                  <span className="text-white font-black text-base sm:text-lg">
-                    SV
-                  </span>
+                <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden shadow-lg ring-2 ring-white/10">
+                  <img
+                    src={logoAsset.url}
+                    alt="Software Vala logo"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div>
                   <div className="text-white font-bold text-base sm:text-lg">
                     Software Vala
                   </div>
                   <div className="text-white/35 text-[10px] sm:text-xs">
-                    Software ecosystem
+                    The Name of Trust
                   </div>
                 </div>
               </div>
@@ -451,9 +535,186 @@ function SoftwareValaLogin() {
                 Create account
               </button>
             </p>
+
+            {/* Contact & social links */}
+            <div className="mt-6 sm:mt-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="h-px flex-1 bg-white/[0.07]" />
+                <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-white/30">
+                  Connect with us
+                </span>
+                <div className="h-px flex-1 bg-white/[0.07]" />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 sm:gap-2.5 mb-3">
+                {WEBSITE_LINKS.map((site) => (
+                  <a
+                    key={site.href}
+                    href={site.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 h-10 sm:h-11 rounded-xl border border-white/10 bg-white/[0.04] text-white/60 hover:text-white hover:bg-white/[0.08] hover:border-white/20 transition-all text-xs sm:text-sm"
+                  >
+                    <Globe size={14} />
+                    {site.label}
+                  </a>
+                ))}
+              </div>
+
+              <div className="flex justify-center gap-2 sm:gap-2.5">
+                {SOCIAL_LINKS.map(({ label, href, Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    title={label}
+                    className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl border border-white/10 bg-white/[0.04] text-white/50 hover:text-white hover:bg-white/[0.09] hover:border-white/25 hover:-translate-y-0.5 transition-all flex items-center justify-center"
+                  >
+                    <Icon size={17} />
+                  </a>
+                ))}
+              </div>
+
+              <p className="mt-4 text-center text-[10px] sm:text-xs text-white/30">
+                The Name of Trust · No Advance Payment
+              </p>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* Chat with us widget */}
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end gap-3">
+        {chatOpen && (
+          <div className="w-[260px] sm:w-[300px] rounded-2xl border border-white/10 bg-[#0b1424]/95 backdrop-blur-xl shadow-2xl overflow-hidden">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.07]">
+              <div className="flex items-center gap-2">
+                <img
+                  src={logoAsset.url}
+                  alt="Software Vala"
+                  className="w-7 h-7 rounded-full object-cover"
+                />
+                <div>
+                  <div className="text-white text-sm font-semibold leading-tight">
+                    Chat with us
+                  </div>
+                  <div className="text-white/35 text-[10px]">
+                    The Name of Trust
+                  </div>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setChatOpen(false);
+                  setAiPanelOpen(false);
+                }}
+                aria-label="Close chat"
+                className="text-white/40 hover:text-white transition"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {aiPanelOpen ? (
+              <div className="p-4">
+                <div className="rounded-xl bg-white/[0.05] border border-white/[0.07] p-3 text-xs sm:text-sm text-white/70 leading-relaxed">
+                  ✨ Welcome to{" "}
+                  <span className="text-white font-semibold">
+                    SOFTWARE VALA™
+                  </span>
+                  ! Our AI agent is launching soon. Till then, our team
+                  replies instantly on WhatsApp.
+                </div>
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 flex items-center justify-center gap-2 h-10 rounded-xl bg-[#e31b23] hover:bg-[#f1262f] text-white text-xs sm:text-sm font-semibold transition-all"
+                >
+                  <MessageCircle size={15} />
+                  Chat on WhatsApp
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setAiPanelOpen(false)}
+                  className="mt-2 w-full text-center text-[11px] text-white/40 hover:text-white transition"
+                >
+                  Back to options
+                </button>
+              </div>
+            ) : (
+              <div className="p-2">
+                <button
+                  type="button"
+                  onClick={() => setAiPanelOpen(true)}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/[0.06] transition-colors text-left"
+                >
+                  <span className="w-9 h-9 rounded-xl bg-[#e31b23]/15 text-[#ff6b72] flex items-center justify-center shrink-0">
+                    <Bot size={17} />
+                  </span>
+                  <span>
+                    <span className="block text-white text-xs sm:text-sm font-medium">
+                      AI Agent
+                    </span>
+                    <span className="block text-white/35 text-[10px] sm:text-xs">
+                      Instant automated help
+                    </span>
+                  </span>
+                </button>
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/[0.06] transition-colors"
+                >
+                  <span className="w-9 h-9 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
+                    <MessageCircle size={17} />
+                  </span>
+                  <span>
+                    <span className="block text-white text-xs sm:text-sm font-medium">
+                      WhatsApp
+                    </span>
+                    <span className="block text-white/35 text-[10px] sm:text-xs">
+                      +91 83488 38383
+                    </span>
+                  </span>
+                </a>
+                <a
+                  href="mailto:hellosoftwarevala@gmail.com"
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/[0.06] transition-colors"
+                >
+                  <span className="w-9 h-9 rounded-xl bg-amber-400/15 text-amber-300 flex items-center justify-center shrink-0">
+                    <Mail size={17} />
+                  </span>
+                  <span>
+                    <span className="block text-white text-xs sm:text-sm font-medium">
+                      Email Support
+                    </span>
+                    <span className="block text-white/35 text-[10px] sm:text-xs break-all">
+                      hellosoftwarevala@gmail.com
+                    </span>
+                  </span>
+                </a>
+              </div>
+            )}
+          </div>
+        )}
+
+        <button
+          type="button"
+          onClick={() => {
+            setChatOpen((value) => !value);
+            setAiPanelOpen(false);
+          }}
+          aria-label={chatOpen ? "Close chat" : "Chat with us"}
+          className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#e31b23] hover:bg-[#f1262f] text-white shadow-[0_12px_35px_rgba(227,27,35,.35)] hover:scale-110 active:scale-95 transition-all flex items-center justify-center"
+        >
+          {chatOpen ? <X size={20} /> : <MessageCircle size={22} />}
+        </button>
+      </div>
     </main>
   );
 }
